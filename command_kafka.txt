@@ -1,5 +1,7 @@
-wget https://downloads.apache.org/kafka/3.3.1/kafka_2.12-3.3.1.tgz
+wget https://archive.apache.org/dist/kafka/2.2.1/kafka_2.12-2.2.1.tgz
 tar -xvf kafka_2.12-3.3.1.tgz
+
+cd onedrive/desktop/stock-market-kafka-data-engineering-project-main/stock-market-kafka-data-engineering-project-main
 
 
 -----------------------
@@ -30,17 +32,40 @@ Do a "sudo nano config/server.properties" - change ADVERTISED_LISTENERS to publi
 
 
 Create the topic:
+ref : https://www.tutorialspoint.com/apache_kafka/apache_kafka_basic_operations.htm
 -----------------------------
 Duplicate the session & enter in a new console --
 cd kafka_2.12-3.3.1
-bin/kafka-topics.sh --create --topic demo_testing2 --bootstrap-server {Put the Public IP of your EC2 Instance:9092} --replication-factor 1 --partitions 1
+bin/kafka-topics.sh --create --topic demo --bootstrap-server 13.53.126.20:9092 --replication-factor 1 --partitions 1
+OR
+bin/kafka-topics.sh --create --topic demo --zookeeper 13.53.126.20:9092 --replication-factor 1 --partitions 1
+OR
+bin/kafka-topics.sh --create --zookeeper 13.53.126.20:2181 --replication-factor 1 --partitions 1 --topic demo-demo
+(this worked)
+
+
+List available topics
+--------------------------------
+bin/kafka-topics.sh --list --zookeeper 13.53.126.20:2181
+
+
+Delete Kafka Topics
+---------------------------------------
+bin/kafka-topics.sh --zookeeper 13.53.126.20:2181 --delete --topic DummyTopic
 
 Start Producer:
 --------------------------
-bin/kafka-console-producer.sh --topic demo_testing2 --bootstrap-server {Put the Public IP of your EC2 Instance:9092} 
+bin/kafka-console-producer.sh --topic demo-demo --bootstrap-server 13.53.126.20:9092
+bin/kafka-console-producer.sh --topic demo-demo --broker-list 13.53.126.20:9092
+This worked
 
 Start Consumer:
 -------------------------
 Duplicate the session & enter in a new console --
 cd kafka_2.12-3.3.1
-bin/kafka-console-consumer.sh --topic demo_testing2 --bootstrap-server {Put the Public IP of your EC2 Instance:9092}
+bin/kafka-console-consumer.sh --topic demo-demo --bootstrap-server 13.53.126.20:9092
+
+
+
+
+bin/kafka-topics.sh --create --zookeeper 13.53.126.20:2181 --replication-factor 1 --partitions 1 --topic demo-demo
